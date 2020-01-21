@@ -46,18 +46,19 @@ div {
 
 ```
 可以看到两个红色的方块向左浮动贴在一起，蓝色方块向右浮动。`p`标签里的文本在浮动元素周围环绕，这里要注意的是，`p`标签的实际宽度还是父容器的宽度。且浮动元素具有块元素的特性。
-![](01)
+![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.21/01.png?raw=true)
+
 
 当我们把`p`标签删除后，会发现`section`高度坍塌。这是因为浮动元素是会脱离文档流的(绝对定位元素会脱离文档流)。如果一个没有高度或者height是auto的容器的子元素是浮动元素，则该容器的高度是不会被撑开的。
-![](02)
+![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.21/02.png?raw=true)
 
 可能有时候需要让文本不围绕浮动元素，这时候可以使用`clear`属性。     
  `clear `CSS 属性指定一个元素是否必须移动(清除浮动后)到在它之前的浮动元素下面。clear 属性适用于浮动和非浮动元素。
  当给p标签添加`clear: left;`后,可以看见文字没有围绕左边的浮块元素排列，而右边依然围绕，这是因为我们只是清除了左边的浮动。
- ![](03)
+ ![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.21/03.png?raw=true)
 
  `clear: right;`同上。这里我们在演示一下常用的`clear: both;`，该属性会清除左右浮动。下面同样给p标签清除浮动，看效果图。
- ![](04)
+ ![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.21/04.png?raw=true)
  这里我们看到，p标签两边都清除了浮动。
 
 注意：如果一个元素里只有浮动元素，那它的高度会是0。如果你想要它自适应即包含所有浮动元素，那你需要清除它的子元素。一种方法叫做clearfix，即clear一个不浮动的 ::after 伪元素。
@@ -70,7 +71,7 @@ div {
   clear: both;
 }
  ```
- ![](05)
+ ![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.21/05.png?raw=true)
 
 可以看见在容器里只有浮动元素的情况下，容器依然被撑开了，利用伪元素就不用新创建标签了。
 
@@ -121,7 +122,7 @@ div {
 
 ```
 可以看到浮动元素脱离的文档流。
-![](06)
+![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.21/06.png?raw=true)
 
 创建一个包含这个浮动元素的BFC，通常的做法是设置父元素 `overflow: auto` 或者设置其他的非默认的 `overflow: visible `的值，个人喜欢用`overflow: hidden;`。根据上面的例子
 
@@ -133,7 +134,7 @@ div {
 }
 
 ```
-![](07)
+![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.21/07.png?raw=true)
 
 添加上述的属性都能创建一个BFC，但都会有副作用：
 - display: table 可能引发响应性问题
@@ -171,7 +172,7 @@ div {
     }
 
 ```
-![](08)
+![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.21/08.png?raw=true)
 
 在BFC中，test1和test2之间的外边距理应是20px，但实际上却只是10px(图中蓝色的高度)，这就是外边距重叠。
 
@@ -208,7 +209,7 @@ div {
 
 ```
 
-![](09)
+![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.21/09.png?raw=true)
 
 这样一来test1和test2处于两个不同的BFC，所以两者就不会发生外边距重叠问题。
 
