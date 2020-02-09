@@ -1,6 +1,7 @@
 date: 2020.02.09
 
 vue中，父组件通过props给子组件下发数据，子组件通过事件给父组件发消息。如下图
+
 ![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.02.09/01.jpeg?raw=true)
 
 
