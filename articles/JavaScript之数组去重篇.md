@@ -2,8 +2,6 @@ date: 2020.03.01
 
 # JavaScript数组去重整理
 
-为了应付面试，还是准备一下数组去重方面的内容把。此篇文章记录笔记，供日后回顾。
-
 - indexOf去重
 
 ```js
@@ -64,6 +62,7 @@ console.log(unique(array));                 // [1, "true", true, 15, false, unde
 console.log({} === {}) // false     对象相比较时，会判断是否是同一个对象，若两个操作数指向同一个对象返回true，否则返回false
 console.log([] === [])  // false
  ```
+
 详细解释可以看`2020.03.02`日的文章
 
 - sort() 去重
@@ -73,7 +72,7 @@ function unique (arr) {
     if (!Array.isArray(arr)) {
         console.log('不是数组，类型错误');
     }
-    arr.sort();
+    arr.sort(); // 先将数组进行排序
     let temp= [arr[0]];
     for (let i = 1; i < arr.length; i++) {
         if (arr[i] !== arr[i-1]) {
@@ -84,7 +83,51 @@ function unique (arr) {
 }
 
 var array = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
-console.log(unique(array));     //  [0, 1, 15, NaN, NaN, "NaN", {…}, {…}, "a", false, null, "true", true, undefined]
+console.log(unique(array));     //  [0, 1, 15, NaN, NaN, "NaN", {…}, {…}, "a", false, null, "true", true, undefined]      NaN 和 {}没有去重
 
-NaN 和 {}没有去重
 ```
+
+- reduce + includes 去重
+
+
+
+
+
+
+
+
+
+
+
+# ES6去重
+
+es6提供的新方法，代码量简短的不得了
+
+- Set 去重
+
+ES6 提供了新的数据结构 `Set`。它类似于数组，但是成员的值都是唯一的，没有重复的值。
+
+`Set` 本身是一个构造函数，用来生成 `Set` 数据结构。
+
+```js
+var array = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+
+var unique = [...new Set(array)]; 
+
+console.log(unique);    // [1, "true", true, 15, false, undefined, null, NaN, "NaN", 0, "a", {…}, {…}]   {}没有去重
+
+```
+
+这里也可以结合Array.from方法，可以将类数组对象或者可遍历的对象，包括，ES6的新数据结构，Set和Map都属于类数组，没有重复的值。
+`function unique (arr) { return Array.from(new Set(arr)) }`
+
+- Map 去重
+
+
+
+
+
+
+
+
+
