@@ -89,7 +89,14 @@ console.log(unique(array));     //  [0, 1, 15, NaN, NaN, "NaN", {…}, {…}, "
 
 - reduce + includes 去重
 
-
+```js
+function unique(arr){
+    return arr.reduce((prev,cur) => prev.includes(cur) ? prev : [...prev,cur],[]);
+}
+var arr = [1,1,'true','true',true,true,15,15,false,false, undefined,undefined, null,null, NaN, NaN,'NaN', 0, 0, 'a', 'a',{},{}];
+console.log(unique(arr));
+// [1, "true", true, 15, false, undefined, null, NaN, "NaN", 0, "a", {…}, {…}]
+```
 
 
 

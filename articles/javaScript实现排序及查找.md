@@ -72,7 +72,7 @@ function quickSort(arr) {
     right = quickSort(right);
 
     return left.concat(arr[baseIndex], right);
-}gu
+}
 
 
 console.log(`快排前：${num}`);  // 快排前：2,4,1,56,2,1,34,0,21

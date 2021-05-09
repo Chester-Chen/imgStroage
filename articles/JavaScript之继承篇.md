@@ -2,7 +2,32 @@ date：2020.01.13
 
 构造函数内含有`prototype`属性，该属性指向构造函数的原型对象。所有原型对象都有一个`constructor`，该属性指向`prototype`所在的构造函数。构造函数的实例，其`__proto__`属性指向构造函数的原型对象。
 
-# 原型链
+补充（ 2020.05.12）：
+在之前的笔记中（也就是下文中所提及的），由于后面的学习中，发现关于继承代码部分，存在一些差异和不足，这里放在开头提示自己。
+
+```js
+// 下文中均是通过new实现继承，如下行代码
+SubType.prototype = new SuperType();	// 继承SuperType
+
+```
+上面采用`new SuperType()`，会创建一个`SuperType`的新实例，该实例会指向`SuperType`的原型对象。通过重写`SubType`的原型对象并抛弃原有的原型对象（抛弃的对象会被GC回收）来实现继承。但是今日看书得知，这种实现方法，能基本满足需求，但会有副作用，具体的副作用，老夫暂时冇得头绪。
+
+
+接下来介绍ES6新方法
+```js
+// a
+Bar.ptototype = Object.create( Foo.prototype );
+
+// b、 开始可以直接修改现有的 Bar.prototype
+Object.setPrototypeOf( Bar.prototype, Foo.prototype );
+```
+在ES6中，a 方法会抛弃原本的`Bar.prototype`，会带来轻微的性能损耗，个人感觉无伤大雅。
+
+在 b 方法中，可以使用`Object.setPrototypeOf(obj, prototype)`直接替换原型对象
+
+
+
+# 1、原型链
 我们让原型对象等于另一个对象的实例，此时原型对象包含一个指向另一个原型的指针，相应的，另一个原型中也包含着一个指向另一个构造函数的指针，层层递进，构成的实例与原型的链条，就叫做原型链。
 ```javaScript
 function SuperType() {
@@ -33,7 +58,7 @@ console.log(instance.getSuperValue());   // true
 上面的图中其实还缺少了一条链。all we know，js中皆为对象，顶层继承至`Object`，该继承也是通过原型链实现的。
 ![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.13/02.png?raw=true)
 
-## 谨慎定义方法
+## 1.1 谨慎定义方法
 
 - 子类需要覆盖父类中的方法时，或者添加父类中不存在的方法时，给原型添加方法的代码一定要放在**替换原型的语句之后。**
 
@@ -71,7 +96,7 @@ console.log(instance.getSuperValue());   // error
 上面的代码中，`SuperType`把实例赋值给了`SubType`的原型，接着后面又把原型替换为一个对象字面量。所以现在的原型包含的是一个`Object`的实例，而非`SuperType`的实例，所以`SubType`和`SuperType`之间的链子已经断了。
 
 
-## 原型链的问题
+## 1.2 原型链的问题
 - 引用类型值的原型属性会被所有实例共享
 - 创建子类型的实例时，不能向超类型的构造函数中传递参数。
 
@@ -99,7 +124,7 @@ console.log(instance2.colors);       // [ 'red', 'blue', 'yellow' ]
 
 该例子中，`SuperType`构造函数定义了一个引用类型的`colors`属性，`SubType`继承父类后，其原型对象中的`colors`会共享给所有实例对象。
 
-# 借用构造函数
+# 2. 借用构造函数
 为解决引用类型值带来的问题，可以采用**借用构造函数**。即在子类构造函数的内部调用父类构造函数，通过使用`apply()`和`call()`。
 ```javaScript
 function SuperType(name) {
@@ -123,7 +148,7 @@ console.log(instance2.colors);      // [ 'red', 'blue' ]
 ```
 可以看到instance1和instance2的各自colors互不影响了。
 
-# 组合继承
+# 3. 组合继承
 组合继承是指，将原型链和借用构造函数组合。使用原型链实现对原型属性和方法的继承，通过借用构造函数来实现对实例属性的继承。
 ```javaScript
 function SuperType(name) {
@@ -162,7 +187,7 @@ instance2.sayName();                // 'chester'
 ![](https://github.com/Chester-Chen/imgStroage/blob/master/images/2020.01.13/04.png?raw=true)
 
 
-# 原型式继承
+# 4. 原型式继承
 
 ```javaScript
 function object(o) {
@@ -219,7 +244,7 @@ console.log(person.friends);        // [ 'Rose', 'Bob', 'Aron', 'Toast' ]
 
 ```
 
-# 寄生式继承
+# 5. 寄生式继承
 
 与原型继承相似，即创建一个仅用于封装继承过程的函数，该函数内部以某种方式来增强对象，然后返回对象。
 
@@ -244,7 +269,7 @@ anotherPerson.sayHi();      // 'hi'
 
 新对象`anotherPerson`不仅有`person`的所有属性和方法，还有自己的`sayHi()`方法。
 
-# 寄生组合式继承
+# 6. 寄生组合式继承
 我们无非就是需要一份父类的原型副本，通过寄生式继承来继承父类的原型，然后再将结果指定给子类的原型。说白了，就是拿到父类原型，赋值给子类原型。
 
 ```javaScript
